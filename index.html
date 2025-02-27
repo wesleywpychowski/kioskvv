@@ -60,6 +60,7 @@
                 return;
             }
 
+            // Initialize Handsontable
             const hot = new Handsontable(container, {
                 data: data.slice(1), // Exclude the header row from data
                 colHeaders: data[0], // Use the first row as column headers
@@ -68,7 +69,7 @@
                 manualRowResize: true,
                 manualColumnResize: true,
                 stretchH: 'all',
-                licenseKey: 'non-commercial-and-evaluation'
+                licenseKey: 'non-commercial-and-evaluation' // Add a license key if needed
             });
         }
 
