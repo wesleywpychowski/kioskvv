@@ -3,78 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Google Spreadsheet with Handsontable</title>
-    <!-- Handsontable CSS -->
+    <title>Handsontable Test</title>
     <link rel="stylesheet" href="https://cdn.handsontable.com/latest/handsontable.full.css">
-    <style>
-        #hot-table {
-            width: 100%;
-            height: 400px;
-            margin: 20px auto;
-        }
-    </style>
 </head>
 <body>
-    <h1>Google Spreadsheet Data with Handsontable</h1>
     <div id="hot-table"></div>
-
-    <!-- Handsontable JS -->
     <script src="https://cdn.handsontable.com/latest/handsontable.full.js"></script>
     <script>
-        // Replace with your Google Spreadsheet CSV URL
-        const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQhQMZFCaPsjVh5ke-a2MpzVUIffSO8g4xA9aS_XDyLIBbyCBn8e1aGJCPUVdVAvUnWee6lH3DG-7bi/pub?gid=0&single=true&output=csv';
-
-        // Fetch data from Google Spreadsheet
-        async function fetchData() {
-            try {
-                const response = await fetch(csvUrl);
-                if (!response.ok) {
-                    throw new Error('Failed to fetch data');
-                }
-                const csvData = await response.text();
-                console.log('Fetched CSV Data:', csvData); // Debugging: Log raw CSV data
-
-                // Convert CSV to 2D array
-                const rows = csvData.split('\n').map(row => row.split(','));
-                console.log('Parsed Data:', rows); // Debugging: Log parsed data
-                return rows;
-            } catch (error) {
-                console.error('Error fetching data:', error);
-                return [];
-            }
-        }
-
-        // Initialize Handsontable with fetched data
-        async function initializeHandsontable() {
-            const data = await fetchData(); // Fetch data from Google Sheets
-            console.log('Data for Handsontable:', data); // Debugging: Log data before rendering
-
-            const container = document.getElementById('hot-table');
-            if (!container) {
-                console.error('Handsontable container not found');
-                return;
-            }
-
-            if (data.length === 0) {
-                console.error('No data found');
-                return;
-            }
-
-            // Initialize Handsontable
-            const hot = new Handsontable(container, {
-                data: data.slice(1), // Exclude the header row from data
-                colHeaders: data[0], // Use the first row as column headers
-                rowHeaders: true,
-                contextMenu: true,
-                manualRowResize: true,
-                manualColumnResize: true,
-                stretchH: 'all',
-                licenseKey: 'non-commercial-and-evaluation' // Add a license key if needed
-            });
-        }
-
-        // Initialize the table when the page loads
-        initializeHandsontable();
+        const container = document.getElementById('hot-table');
+        const hot = new Handsontable(container, {
+            data: [[1, 2, 3], [4, 5, 6]],
+            rowHeaders: true,
+            colHeaders: true,
+            licenseKey: 'non-commercial-and-evaluation'
+        });
     </script>
 </body>
 </html>
