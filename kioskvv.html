@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gegevens uit Google Spreadsheet</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Gegevens uit Google Spreadsheet</h1>
+    <table id="data-table">
+        <thead>
+            <tr>
+                <th>Kolom 1</th>
+                <th>Kolom 2</th>
+                <th>Kolom 3</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Gegevens worden hier ingevoegd -->
+        </tbody>
+    </table>
+
+    <script>
+        // Vervang deze URL door de URL van je gepubliceerde CSV-bestand
+        const csvUrl = 'https://docs.google.com/spreadsheets/d/e/.../pub?output=csv';
+
+        fetch(csvUrl)
+            .then(response => response.text())
+            .then(data => {
+                const rows = data.split('\n').slice(1); // Verwijder de header rij
+                const tableBody = document.querySelector('#data-table tbody');
+
+                rows.forEach(row => {
+                    const columns = row.split(',');
+                    const tr = document.createElement('tr');
+                    columns.forEach(column => {
+                        const td = document.createElement('td');
+                        td.textContent = column;
+                        tr.appendChild(td);
+                    });
+                    tableBody.appendChild(tr);
+                });
+            })
+            .catch(error => console.error('Fout bij het ophalen van gegevens:', error));
+    </script>
+</body>
+</html>
