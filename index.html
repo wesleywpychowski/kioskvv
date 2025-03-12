@@ -1,80 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="nl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Google Spreadsheet with Handsontable</title>
-    <!-- Handsontable CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/handsontable/styles/handsontable.min.css">
+    <title>Specifieke Cel Weergeven</title>
     <style>
-        #hot-table {
-            width: 100%;
-            height: 400px;
-            margin: 20px auto;
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .cell-content {
+            font-size: 1.2em;
+            color: #333;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <h1>Google Spreadsheet Data with Handsontable</h1>
-    <div id="hot-table"></div>
+    <h1>Inhoud van een specifieke cel</h1>
+    <div class="cell-content" id="cell-content">
+        <!-- Hier komt de inhoud van de cel -->
+    </div>
 
-    <!-- Handsontable JS -->
-    <script src="https://cdn.jsdelivr.net/npm/handsontable/dist/handsontable.full.min.js"></script>
     <script>
-        // Replace with your Google Spreadsheet CSV URL
-        const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQhQMZFCaPsjVh5ke-a2MpzVUIffSO8g4xA9aS_XDyLIBbyCBn8e1aGJCPUVdVAvUnWee6lH3DG-7bi/pub?gid=0&single=true&output=csv';
+        // Vervang deze URL met de URL van je gepubliceerde Google Spreadsheet (CSV)
+        const spreadsheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRWOKKSmJLmRkIIRmLTx_coEq4S3OLGavc2Kp0jtRLTS9JZbX_e_ne85QxDAx-Dtwi1sAlEiZD9Hpwp/pub?gid=1136886854&single=true&output=csv';
 
-        // Fetch data from Google Spreadsheet
-        async function fetchData() {
-            try {
-                const response = await fetch(csvUrl);
-                if (!response.ok) {
-                    throw new Error('Failed to fetch data');
+        // Rij- en kolomindex van de cel die je wilt tonen (begin bij 0)
+        const rowIndex = 1; // Tweede rij (index 1)
+        const columnIndex = 2; // Derde kolom (index 2)
+
+        fetch(spreadsheetUrl)
+            .then(response => response.text())
+            .then(data => {
+                const rows = data.split('\n'); // Splits de CSV in rijen
+                if (rowIndex < rows.length) {
+                    const cells = rows[rowIndex].split(','); // Splits de rij in cellen
+                    if (columnIndex < cells.length) {
+                        const cellContent = cells[columnIndex].trim(); // Haal de inhoud van de cel op
+                        document.getElementById('cell-content').textContent = `Inhoud van de cel: ${cellContent}`;
+                    } else {
+                        console.error('Kolomindex buiten bereik');
+                    }
+                } else {
+                    console.error('Rijindex buiten bereik');
                 }
-                const csvData = await response.text();
-                console.log('Fetched CSV Data:', csvData); // Debugging: Log raw CSV data
-
-                // Convert CSV to 2D array
-                const rows = csvData.split('\n').map(row => row.split(','));
-                console.log('Parsed Data:', rows); // Debugging: Log parsed data
-                return rows;
-            } catch (error) {
-                console.error('Error fetching data:', error);
-                return [];
-            }
-        }
-
-        // Initialize Handsontable with fetched data
-        async function initializeHandsontable() {
-            const data = await fetchData(); // Fetch data from Google Sheets
-            console.log('Data for Handsontable:', data); // Debugging: Log data before rendering
-
-            const container = document.getElementById('hot-table');
-            if (!container) {
-                console.error('Handsontable container not found');
-                return;
-            }
-
-            if (data.length === 0) {
-                console.error('No data found');
-                return;
-            }
-
-            // Initialize Handsontable
-            const hot = new Handsontable(container, {
-                data: data.slice(1), // Exclude the header row from data
-                colHeaders: data[0], // Use the first row as column headers
-                rowHeaders: true,
-                contextMenu: true,
-                manualRowResize: true,
-                manualColumnResize: true,
-                stretchH: 'all',
-                licenseKey: 'non-commercial-and-evaluation' // Add a license key if needed
-            });
-        }
-
-        // Initialize the table when the page loads
-        initializeHandsontable();
+            })
+            .catch(error => console.error('Fout bij het ophalen van de data:', error));
     </script>
 </body>
 </html>
