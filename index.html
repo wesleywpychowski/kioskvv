@@ -5,6 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Specifieke Cel Weergeven</title>
     <style>
+
+        .container {  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+}
+
+.lokaal { grid-area: 1 / 1 / 2 / 3; }
+
+.nr { grid-area: 1 / 2 / 2 / 3; }
+
+.lokaal1 { grid-area: 2 / 1 / 4 / 2; }
+
+.lokaal2 { grid-area: 3 / 1 / 4 / 2; }
+
+.lokaal3 { grid-area: 4 / 1 / 5 / 2; }
+
+.lokaal4 { grid-area: 5 / 1 / 6 / 2; }
+
+.lokaal5 { grid-area: 6 / 1 / 7 / 2; }
+
+.nr1 { grid-area: 2 / 2 / 3 / 3; }
+
+.nr2 { grid-area: 3 / 2 / 4 / 3; }
+
+.nr3 { grid-area: 4 / 2 / 5 / 3; }
+
+.nr4 { grid-area: 5 / 2 / 6 / 3; }
+
+.nr5 { grid-area: 6 / 2 / 7 / 3; }
+
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
